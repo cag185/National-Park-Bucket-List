@@ -1,4 +1,5 @@
 // THIS FILE IS FOR THE WELCOME SCREEN
+import React, { useState } from "react";
 import {
   StyleSheet,
   Button,
@@ -12,12 +13,17 @@ import {
 // get the size of the window
 const windowWidth = Dimensions.get("window").width;
 
-// expression for button click
-const welcomeButtonClick = () => {
-  console.log("clicked");
-};
-
 export default function Homescreen() {
+  // use state
+  const [isClicked, setClick] = useState(0);
+  const welcomeButtonClick = () => {
+    if (isClicked === 1) {
+      setClick(0);
+    } else {
+      setClick(1);
+    }
+    console.log("clicked: ", isClicked);
+  };
   return (
     <View>
       <Text style={styles.Text}>Welcome to the National Park App!</Text>
