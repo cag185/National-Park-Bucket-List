@@ -7,7 +7,6 @@ const windowWidth = Dimensions.get("window").width;
 export default function App() {
   return (
     <View style={styles.container}>
-      <Image style={styles.wallpaper} source={wallpaper} />
       <Text style={styles.Text}>Welcome to the National Park App!</Text>
       <StatusBar style="auto" />
     </View>
