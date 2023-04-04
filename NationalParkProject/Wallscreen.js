@@ -10,12 +10,16 @@ import {
   Pressable,
 } from "react-native";
 
+// nav stuff
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 // get the size of the window
 const windowWidth = Dimensions.get("window").width;
 
 export default function Wallscreen({ navigation }) {
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.Text}>Wallscreen!</Text>
       <Pressable
         style={styles.button1}
@@ -34,6 +38,12 @@ export default function Wallscreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   Text: {
     color: "lightgreen",
     textAlign: "center",

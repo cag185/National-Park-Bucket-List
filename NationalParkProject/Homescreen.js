@@ -29,7 +29,7 @@ export default function Homescreen({ navigation }) {
     console.log("clicked: ", isClicked);
   };
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.Text}>Welcome to the National Park App!</Text>
       <Pressable
         style={styles.button1}
@@ -42,6 +42,12 @@ export default function Homescreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   Text: {
     color: "lightgreen",
     textAlign: "center",
