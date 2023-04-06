@@ -8,6 +8,7 @@ import {
   Image,
   Dimensions,
   Pressable,
+  ScrollView,
 } from "react-native";
 
 // nav stuff
@@ -18,16 +19,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const windowWidth = Dimensions.get("window").width;
 
 // variables for the JSON response
-var Park_Names;
-var Park_Descriptions;
+// var Park_Names;
+// var Park_Descriptions;
 
 export default function Wallscreen({ navigation }) {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
+  const [Park_Names, setPark_Names] = useState([]);
+  const [Park_Descriptions, setPark_Descriptions] = useState([]);
 
   // api command
   const request =
-    "https://developer.nps.gov/api/v1/parks?api_key=MH1CCK0oflseTpJ03akiKEitl2IEafgptN7QRgG1";
+    "https://developer.nps.gov/api/v1/parks?api_key=MH1CCK0oflseTpJ03akiKEitl2IEafgptN7QRgG1&limit=500";
 
   // API call code
 
@@ -41,10 +44,17 @@ export default function Wallscreen({ navigation }) {
         }
       })
       .then((data) => {
-        Park_Names = data.data.map((park) => park.fullName);
-        Park_Descriptions = data.data.map((park) => park.description);
+        const parkNames = data.data.map((park) => park.fullName);
+        const parkDescriptions = data.data.map((park) => park.description);
+        setPark_Names(parkNames);
+        setPark_Descriptions(parkDescriptions);
+        setData(data.data);
         console.log(Park_Names);
-        console.log(Park_Descriptions);
+        // console.log(Park_Descriptions);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error);
       });
   }, []);
 
@@ -65,6 +75,19 @@ export default function Wallscreen({ navigation }) {
           <Text style={styles.buttonText}>Stats</Text>
         </Pressable>
       </View>
+      <ScrollView>
+        {
+          // place to start the mappings of all the names, images, and descriptions
+          Park_Names.map((parkName, index) => (
+            <View key={index} style={styles.parkContainer}>
+              <Text style={styles.parkName}>{parkName}</Text>
+              <Text style={styles.parkDescription}>
+                {Park_Descriptions[index]}
+              </Text>
+            </View>
+          ))
+        }
+      </ScrollView>
     </View>
   );
 }
@@ -87,6 +110,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     flexDirection: "row",
     borderRadius: 20,
+    margin: 5,
   },
   button1: {
     borderRadius: 20,
@@ -109,6 +133,7 @@ const styles = StyleSheet.create({
   parkContainer: {
     width: windowWidth,
     margin: 10,
+    backgroundColor: "black",
   },
   textContainer: {
     backgroundColor: "white",
@@ -117,9 +142,12 @@ const styles = StyleSheet.create({
   parkName: {
     fontSize: 18,
     fontFamily: "Helvetica-Bold",
+    color: "white",
   },
   parkDescription: {
     fontSize: 14,
     marginTop: 3,
+    marginRight: 10,
+    color: "white",
   },
 });
