@@ -50,20 +50,21 @@ export default function Wallscreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.Text}>Wallscreen!</Text>
-      <Text style={styles.Text}>Should see parks here</Text>
-      <Pressable
-        style={styles.button1}
-        onPress={() => navigation.navigate("Home")}
-      >
-        <Text style={styles.buttonText}>Home</Text>
-      </Pressable>
-      <Pressable
-        style={styles.button1}
-        onPress={() => navigation.navigate("Stats")}
-      >
-        <Text style={styles.buttonText}>Stats</Text>
-      </Pressable>
+      <Text style={styles.HeaderText}>National Parks!</Text>
+      <View style={styles.NavContainer}>
+        <Pressable
+          style={styles.button1}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Text style={styles.buttonText}>Home</Text>
+        </Pressable>
+        <Pressable
+          style={styles.button1}
+          onPress={() => navigation.navigate("Stats")}
+        >
+          <Text style={styles.buttonText}>Stats</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -73,26 +74,52 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "top",
   },
-  Text: {
+  HeaderText: {
     color: "lightgreen",
     textAlign: "center",
     fontSize: 50,
+    marginTop: 5,
+  },
+  NavContainer: {
+    backgroundColor: "lightgreen",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    borderRadius: 20,
   },
   button1: {
     borderRadius: 20,
-    elevation: 3,
-    color: "white",
     backgroundColor: "forestgreen",
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    padding: 15,
-    margin: 20,
+    padding: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    width: 130,
+    margin: 5,
+    marginLeft: 10,
+    marginRight: 10,
   },
   buttonText: {
-    fontSize: 25,
+    fontSize: 20,
     color: "white",
+  },
+  parkContainer: {
+    width: windowWidth,
+    margin: 10,
+  },
+  textContainer: {
+    backgroundColor: "white",
+    margin: 5,
+  },
+  parkName: {
+    fontSize: 18,
+    fontFamily: "Helvetica-Bold",
+  },
+  parkDescription: {
+    fontSize: 14,
+    marginTop: 3,
   },
 });
