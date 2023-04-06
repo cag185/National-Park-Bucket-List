@@ -1,5 +1,5 @@
 // THIS FILE IS FOR THE WALL SCREEN
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Button,
@@ -18,9 +18,26 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const windowWidth = Dimensions.get("window").width;
 
 export default function Wallscreen({ navigation }) {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+
+  // api command
+  const request =
+    "https://developer.nps.gov/api/v1/parks?api_key=MH1CCK0oflseTpJ03akiKEitl2IEafgptN7QRgG1";
+
+  // API call code
+
+  useEffect(() => {
+    fetch(request)
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((error) => setError(error));
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.Text}>Wallscreen!</Text>
+      <Text style={styles.Text}>Should see parks here</Text>
       <Pressable
         style={styles.button1}
         onPress={() => navigation.navigate("Home")}
