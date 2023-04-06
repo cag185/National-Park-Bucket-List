@@ -17,6 +17,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // get the size of the window
 const windowWidth = Dimensions.get("window").width;
 
+// variables for the JSON response
+var Park_Names;
+var Park_Descriptions;
+
 export default function Wallscreen({ navigation }) {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
@@ -29,9 +33,19 @@ export default function Wallscreen({ navigation }) {
 
   useEffect(() => {
     fetch(request)
-      .then((response) => response.json())
-      .then((data) => setData(data))
-      .catch((error) => setError(error));
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Network response not ok");
+        }
+      })
+      .then((data) => {
+        Park_Names = data.data.map((park) => park.fullName);
+        Park_Descriptions = data.data.map((park) => park.description);
+        console.log(Park_Names);
+        console.log(Park_Descriptions);
+      });
   }, []);
 
   return (
