@@ -22,42 +22,7 @@ const windowWidth = Dimensions.get("window").width;
 // var Park_Names;
 // var Park_Descriptions;
 
-export default function Wallscreen({ navigation }) {
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
-  const [Park_Names, setPark_Names] = useState([]);
-  const [Park_Descriptions, setPark_Descriptions] = useState([]);
-
-  // api command
-  const request =
-    "https://developer.nps.gov/api/v1/parks?api_key=MH1CCK0oflseTpJ03akiKEitl2IEafgptN7QRgG1&limit=500";
-
-  // API call code
-
-  useEffect(() => {
-    fetch(request)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Network response not ok");
-        }
-      })
-      .then((data) => {
-        const parkNames = data.data.map((park) => park.fullName);
-        const parkDescriptions = data.data.map((park) => park.description);
-        setPark_Names(parkNames);
-        setPark_Descriptions(parkDescriptions);
-        setData(data.data);
-        console.log(Park_Names);
-        // console.log(Park_Descriptions);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(error);
-      });
-  }, []);
-
+export default function Wallscreen({ navigation, data }) {
   return (
     <View style={styles.container}>
       <Text style={styles.HeaderText}>National Parks!</Text>
@@ -78,7 +43,7 @@ export default function Wallscreen({ navigation }) {
       <ScrollView>
         {
           // place to start the mappings of all the names, images, and descriptions
-          Park_Names.map((parkName, index) => (
+          data.map((parkName, index) => (
             <View key={index} style={styles.parkContainer}>
               <Text style={styles.parkName}>{parkName}</Text>
               <Text style={styles.parkDescription}>
