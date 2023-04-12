@@ -17,6 +17,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   //use state to load in the API call request
   const [data, setData] = useState([]);
+  const [natParks, setNatParks] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -24,27 +25,52 @@ export default function App() {
         if (cachedData !== null) {
           setData(JSON.parse(cachedData));
         } else {
-          const respone = await fetch(
+          const response = await fetch(
             "https://developer.nps.gov/api/v1/parks?api_key=MH1CCK0oflseTpJ03akiKEitl2IEafgptN7QRgG1&limit=500"
           );
-          const data = await Response.json();
-          setData(data);
-          await AsyncStorage.setItem("cachedData", JSON.stringify(data));
+          if (response.status === 200) {
+            const data = await response.json();
+            setData(data);
+            await AsyncStorage.setItem("cachedData", JSON.stringify(data));
+          } else {
+            console.log("Error in retrieving the data");
+          }
         }
       } catch (error) {
         console.error(error);
+        console.log("Error in retrieving the data");
       }
     };
 
     fetchData();
   }, []);
 
+  // filter the parks by the national parks only
+  console.log("Before the useEffect to limit the data");
+  useEffect(() => {
+    if (data.length > 0) {
+      console.log("should see data here");
+      console.log(data);
+      const filteredData = data.filter(
+        (park) => park.designation === "National Park"
+      );
+      //set the filtered data as a state
+      setNatParks(filteredData);
+    } else {
+      console.log("data less than 0");
+    }
+  }, [data]);
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Homescreen} />
-        <Stack.Screen name="Wall" component={Wallscreen} data={data} />
-        <Stack.Screen name="Stats" component={Statistics} data={data} />
+        <Stack.Screen name="Wall">
+          {(props) => <Wallscreen {...props} natParks={natParks} data={data} />}
+        </Stack.Screen>
+        <Stack.Screen name="Stats">
+          {(props) => <Statistics {...props} natParks={natParks} data={data} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

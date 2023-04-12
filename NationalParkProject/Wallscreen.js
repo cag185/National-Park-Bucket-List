@@ -22,7 +22,9 @@ const windowWidth = Dimensions.get("window").width;
 // var Park_Names;
 // var Park_Descriptions;
 
-export default function Wallscreen({ navigation, data }) {
+export default function Wallscreen({ navigation, data, natParks }) {
+  console.log(natParks);
+
   return (
     <View style={styles.container}>
       <Text style={styles.HeaderText}>National Parks!</Text>
@@ -41,17 +43,15 @@ export default function Wallscreen({ navigation, data }) {
         </Pressable>
       </View>
       <ScrollView>
-        {
-          // place to start the mappings of all the names, images, and descriptions
-          data.map((parkName, index) => (
-            <View key={index} style={styles.parkContainer}>
-              <Text style={styles.parkName}>{parkName}</Text>
-              <Text style={styles.parkDescription}>
-                {Park_Descriptions[index]}
+        <View style={styles.parkContainer}>
+          <View style={styles.textContainer}>
+            {natParks.map((park) => (
+              <Text key={park.id} style={styles.parkName}>
+                {park.fullName}
               </Text>
-            </View>
-          ))
-        }
+            ))}
+          </View>
+        </View>
       </ScrollView>
     </View>
   );

@@ -17,7 +17,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // get the size of the window
 const windowWidth = Dimensions.get("window").width;
 
-export default function Statistics({ navigation }) {
+export default function Statistics({ navigation, data }) {
   return (
     <View style={styles.container}>
       <Text style={styles.Text}>Stats!</Text>
