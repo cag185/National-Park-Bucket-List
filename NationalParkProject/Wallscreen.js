@@ -43,15 +43,15 @@ export default function Wallscreen({ navigation, data, natParks }) {
         </Pressable>
       </View>
       <ScrollView>
-        <View style={styles.parkContainer}>
-          <View style={styles.textContainer}>
-            {data.map((park) => (
+        {data.map((park) => (
+          <View style={styles.parkContainer}>
+            <View style={styles.textContainer}>
               <Text key={park.id} style={styles.parkName}>
                 {park.fullName}
               </Text>
-            ))}
+            </View>
           </View>
-        </View>
+        ))}
       </ScrollView>
     </View>
   );

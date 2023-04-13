@@ -15,6 +15,12 @@ const windowWidth = Dimensions.get("window").width;
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  // clear the cache first
+  clearAsyncStorage = async () => {
+    AsyncStorage.clear();
+  };
+  clearAsyncStorage();
+
   //use state to load in the API call request
   const [data, setData] = useState([]);
   const [natParks, setNatParks] = useState([]);
@@ -23,18 +29,57 @@ export default function App() {
       try {
         const cachedData = await AsyncStorage.getItem("cachedData");
         if (cachedData !== null) {
+          // filter the data
           setData(JSON.parse(cachedData));
+          console.log(data);
+          // Definitely have data here
+          // const filteredData = data.filter(function (park) {
+          //   if (park.designation === "National Park") {
+          //     return park;
+          //   }
+          // });
+          // setData(filteredData);
           // Definitely have data here
           console.log("Data was set");
-          // console.log(data);
+          console.log(data);
         } else {
+          console.log("cache empty, making request");
           const response = await fetch(
             "https://developer.nps.gov/api/v1/parks?api_key=MH1CCK0oflseTpJ03akiKEitl2IEafgptN7QRgG1&limit=500"
           );
           if (response.status === 200) {
             const data = await response.json();
+            // see if we can filter the data
+            try {
+              let filteredData1 = data.filter(function (park1) {
+                return park1.designation === "National Park";
+              });
+            } catch (error) {
+              console.error("error here: ", error);
+            }
+
             setData(data);
+            console.log("Data set");
+            // console.log(data);
+            // Have data here since clearing the cache
+            // need to filter the data
             await AsyncStorage.setItem("cachedData", JSON.stringify(data));
+
+            // see if the cached data is set
+            console.log("Retrieving the cached data");
+            const cachedData = await AsyncStorage.getItem("cachedData");
+            // console.log(cachedData);
+            // see if we can filter the data
+            try {
+              const cachedJSON = JSON.parse(cachedData);
+              const filteredData1 = cachedJSON.filter(
+                (park) => park.fullName === "Acadia National Park"
+              );
+            } catch (error) {
+              console.error("error here: ", error);
+              console.log("Could not filter the cached data");
+            }
+            // cached data confirmed
           } else {
             console.log("Error in retrieving the data");
           }
@@ -48,31 +93,27 @@ export default function App() {
     fetchData();
   }, []);
 
-  // filter the parks by the national parks only
-  console.log("Before the useEffect to limit the data");
-  useEffect(() => {
-    if (data.length > 0) {
-      console.log("should see data here");
-      console.log(data);
-      const filteredData = data.filter(
-        (park) => park.designation === "National Park"
-      );
-      //set the filtered data as a state
-      setNatParks(filteredData);
-    } else {
-      console.log("data less than 0");
-    }
-  }, [data]);
+  // // filter the parks by the national parks only
+  // console.log("Before the useEffect to limit the data");
+  // useEffect(() => {
+  //   console.log("should see data here");
+  //   // console.log(data);
+  //   const filteredData = data.filter(
+  //     (park) => park.designation === "National Park"
+  //   );
+  //   //set the filtered data as a state
+  //   setNatParks(filteredData);
+  // }, [data]);
 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Homescreen} />
         <Stack.Screen name="Wall">
-          {(props) => <Wallscreen {...props} natParks={natParks} data={data} />}
+          {(props) => <Wallscreen {...props} data={data} />}
         </Stack.Screen>
         <Stack.Screen name="Stats">
-          {(props) => <Statistics {...props} natParks={natParks} data={data} />}
+          {(props) => <Statistics {...props} data={data} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
