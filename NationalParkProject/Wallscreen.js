@@ -45,7 +45,7 @@ export default function Wallscreen({ navigation, data, natParks }) {
       <ScrollView>
         <View style={styles.parkContainer}>
           <View style={styles.textContainer}>
-            {natParks.map((park) => (
+            {data.map((park) => (
               <Text key={park.id} style={styles.parkName}>
                 {park.fullName}
               </Text>

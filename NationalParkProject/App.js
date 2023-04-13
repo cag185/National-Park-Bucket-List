@@ -24,6 +24,9 @@ export default function App() {
         const cachedData = await AsyncStorage.getItem("cachedData");
         if (cachedData !== null) {
           setData(JSON.parse(cachedData));
+          // Definitely have data here
+          console.log("Data was set");
+          // console.log(data);
         } else {
           const response = await fetch(
             "https://developer.nps.gov/api/v1/parks?api_key=MH1CCK0oflseTpJ03akiKEitl2IEafgptN7QRgG1&limit=500"
