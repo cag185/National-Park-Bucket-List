@@ -23,13 +23,15 @@ const windowWidth = Dimensions.get("window").width;
 // var Park_Names;
 // var Park_Descriptions;
 
-export default function Wallscreen({ navigation }) {
+export default function Wallscreen({ navigation, filteredData }) {
   const [data, setData] = useState([]);
+  console.log("Inside the wallscreen app");
 
-  // api command
-  const request =
-    "https://developer.nps.gov/api/v1/parks?api_key=MH1CCK0oflseTpJ03akiKEitl2IEafgptN7QRgG1&limit=500";
-
+  if (filteredData > 0) {
+    console.log(filteredData);
+  } else {
+    console.log("Filtered Data not passed through to wallscreen from app.js");
+  }
   useEffect(() => {
     let keys = [];
     let cache_item;
@@ -39,7 +41,9 @@ export default function Wallscreen({ navigation }) {
         console.log(keys);
         cache_item = await AsyncStorage.getItem(keys[0]);
         cache_item = JSON.parse(cache_item);
-        setData(cache_item);
+        parsed_item = cache_item.data;
+        setData(parsed_item);
+        // console.log(parsed_item);
       } catch (error) {
         console.log("Error with retrieving item from the cache: ", error);
       }
@@ -50,11 +54,10 @@ export default function Wallscreen({ navigation }) {
   }, []);
 
   // second use effect -rerender on data change
-  console.log("len of data: ", data.data.length);
-  console.log(data.data);
-  if (data.data.length > 0) {
+  console.log("len of data: ", data.length);
+  // console.log(data);
+  if (data.length > 0) {
     console.log("We have accurate data");
-    console.log(data);
     return (
       <View style={styles.container}>
         <Text style={styles.HeaderText}>National Parks!</Text>
@@ -74,9 +77,9 @@ export default function Wallscreen({ navigation }) {
         </View>
         <View>
           <ScrollView>
-            {data.data.map((park, index) => (
+            {data.map((park, index) => (
               <Text key={index} style={styles.parkName}>
-                Hello
+                {park.fullName}
               </Text>
             ))}
           </ScrollView>
