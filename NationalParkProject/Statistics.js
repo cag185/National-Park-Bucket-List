@@ -40,7 +40,7 @@ export default function Statistics({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#242629",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -59,6 +59,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: 15,
     margin: 20,
+    shadowOffset: { width: -2, height: 4 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
   buttonText: {
     fontSize: 25,
