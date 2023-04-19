@@ -19,10 +19,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // get the size of the window
 const windowWidth = Dimensions.get("window").width;
 
-// variables for the JSON response
-// var Park_Names;
-// var Park_Descriptions;
-
 export default function Wallscreen({ navigation, filteredData }) {
   const [data, setData] = useState([]);
   console.log("Inside the wallscreen app");
@@ -41,7 +37,7 @@ export default function Wallscreen({ navigation, filteredData }) {
         console.log(keys);
         cache_item = await AsyncStorage.getItem(keys[0]);
         const parsedItem = await JSON.parse(cache_item);
-        console.log(parsedItem);
+        // console.log(parsedItem);
         console.log("parsedItem was parsed");
         console.log(parsedItem.length);
         setData(parsedItem);
@@ -55,9 +51,6 @@ export default function Wallscreen({ navigation, filteredData }) {
     console.log("data cache retrieved and set inside wallscreen");
   }, []);
 
-  // second use effect -rerender on data change
-  // console.log("len of data: ", data.length);
-  // console.log(data);
   if (data != null) {
     console.log("We have accurate data");
     return (
