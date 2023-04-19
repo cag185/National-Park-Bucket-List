@@ -79,12 +79,10 @@ export default function Wallscreen({ navigation, filteredData }) {
                   source={{ uri: park.images[0].url }}
                   style={styles.parkImage}
                 />
-                <Text key={index} style={styles.parkName}>
+                <Text key={park.name} style={styles.parkName}>
                   {park.fullName}
                 </Text>
-                <Text key={index} style={styles.parkDescription}>
-                  {park.description}
-                </Text>
+                <Text style={styles.parkDescription}>{park.description}</Text>
               </View>
             ))}
           </ScrollView>
