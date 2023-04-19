@@ -36,10 +36,10 @@ export default function App() {
             setData(data.data);
             // console.log(data, data);
             console.log("Data set");
-            for (let i = 0; i < data.data.length; i++) {
-              const fullname = data.data[i].fullName;
-              // console.log(fullname);
-            }
+            // for (let i = 0; i < data.data.length; i++) {
+            //   const fullname = data.data[i].fullName;
+            //   // console.log(fullname);
+            // }
           });
       } catch (error) {
         // error fetching data
@@ -48,22 +48,25 @@ export default function App() {
     fetchData();
     console.log("Done fetching data");
     // check to see if there is data
-    const fd = data.filter((park) => park.designation === "National Park");
+    const df = data;
+    const fd = df.filter((park) => park.designation === "National Park");
+    // console.log(fd);
     if (fd !== null) {
-      // console.log(filteredData);
+      // console.log(fd);
       setFilterdData(fd);
       console.log("filtered data Proof");
-      console.log("type", typeof fd);
-      for (let i = 0; i < fd.length; i++) {
-        const fullname = fd[i].fullName;
-        // console.log(fullname); Test successful
-      }
+      // console.log("type", typeof fd);
+      // for (let i = 0; i < fd.length; i++) {
+      //   const fullname = fd[i].fullName;
+      //   console.log(fullname); //Test successful
+      // }
 
       // once we have filtered data lets store it in the cache
       const setCache = async () => {
         try {
-          const data_to_set = JSON.stringify(filteredData);
+          const data_to_set = JSON.stringify(fd);
           await AsyncStorage.setItem("FILTERED_DATA", data_to_set);
+          console.log("size of the park info: ", fd.length * 2);
           console.log("Cache set");
         } catch (error) {
           console.log("Error with setting the cache: ", error);
@@ -76,25 +79,26 @@ export default function App() {
   }, []); // empty array is the dependency array. Empty dependency array makes the useeffect occur once rather than every cycle that gets updated
 
   // test to see the filter data
-  for (let i = 0; i < filteredData.length; i++) {
-    // console.log(filteredData[i].name); // another test
-  }
+  // console.log(filteredData.length);
+  // for (let i = 0; i < filteredData.length; i++) {
+  //   console.log(filteredData[i].fullName); // another test
+  // }
 
   // test to see if the cache has the item we tried to store
-  const test = async () => {
-    let keys = [];
-    try {
-      keys = await AsyncStorage.getAllKeys();
-      // console.log(keys);
-      // console.log(keys[0]);
-      d = await AsyncStorage.getItem(keys[1]);
-      d = JSON.parse(d);
-      // console.log(d);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  test();
+  // const test = async () => {
+  //   let keys = [];
+  //   try {
+  //     keys = await AsyncStorage.getAllKeys();
+  //     // console.log(keys);
+  //     // console.log(keys[0]);
+  //     d = await AsyncStorage.getItem(keys[1]);
+  //     d = JSON.parse(d);
+  //     // console.log(d);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // test();
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">

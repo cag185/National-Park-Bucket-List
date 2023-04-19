@@ -27,8 +27,8 @@ export default function Wallscreen({ navigation, filteredData }) {
   const [data, setData] = useState([]);
   console.log("Inside the wallscreen app");
 
-  if (filteredData > 0) {
-    console.log(filteredData);
+  if (filteredData != null) {
+    // console.log(filteredData);
   } else {
     console.log("Filtered Data not passed through to wallscreen from app.js");
   }
@@ -40,9 +40,11 @@ export default function Wallscreen({ navigation, filteredData }) {
         keys = await AsyncStorage.getAllKeys();
         console.log(keys);
         cache_item = await AsyncStorage.getItem(keys[0]);
-        cache_item = JSON.parse(cache_item);
-        parsed_item = cache_item.data;
-        setData(parsed_item);
+        const parsedItem = await JSON.parse(cache_item);
+        console.log(parsedItem);
+        console.log("parsedItem was parsed");
+        console.log(parsedItem.length);
+        setData(parsedItem);
         // console.log(parsed_item);
       } catch (error) {
         console.log("Error with retrieving item from the cache: ", error);
@@ -54,9 +56,9 @@ export default function Wallscreen({ navigation, filteredData }) {
   }, []);
 
   // second use effect -rerender on data change
-  console.log("len of data: ", data.length);
+  // console.log("len of data: ", data.length);
   // console.log(data);
-  if (data.length > 0) {
+  if (data != null) {
     console.log("We have accurate data");
     return (
       <View style={styles.container}>
