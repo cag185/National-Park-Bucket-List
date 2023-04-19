@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
     width: windowWidth - windowWidth / 4,
     height: windowWidth - windowWidth / 4,
     marginBottom: 10,
+    borderRadius: 10,
   },
 
   parkDescription: {
