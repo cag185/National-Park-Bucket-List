@@ -10,6 +10,7 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
+import { Divider } from "react-native-elements";
 
 // nav stuff
 import { NavigationContainer } from "@react-navigation/native";
@@ -83,6 +84,16 @@ export default function Wallscreen({ navigation, filteredData }) {
                   {park.fullName}
                 </Text>
                 <Text style={styles.parkDescription}>{park.description}</Text>
+                <Divider key={index} style={styles.DividerStyle}></Divider>
+                <View style={{ flexDirection: "row" }}>
+                  <Pressable style={styles.button2}>
+                    <Text style={styles.button2Text}>Add 2 Bucket List!</Text>
+                  </Pressable>
+                  <Pressable style={styles.button2}>
+                    <Text style={styles.button2Text}>Add 2 Been There!</Text>
+                  </Pressable>
+                </View>
+                <Divider key={park.id} style={styles.DividerStyle}></Divider>
               </View>
             ))}
           </ScrollView>
@@ -95,14 +106,15 @@ export default function Wallscreen({ navigation, filteredData }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#242629",
     alignItems: "center",
     justifyContent: "top",
     marginBottom: 0,
     height: windowHeight,
   },
   HeaderText: {
-    color: "lightgreen",
+    color: "rgb(254, 216, 117)",
+
     textAlign: "center",
     fontSize: 50,
     marginTop: 35,
@@ -112,7 +124,7 @@ const styles = StyleSheet.create({
   },
 
   NavContainer: {
-    backgroundColor: "lightgreen",
+    backgroundColor: "rgb(254, 216, 117)",
     justifyContent: "flex-start",
     flexDirection: "row",
     borderRadius: 20,
@@ -120,7 +132,7 @@ const styles = StyleSheet.create({
   },
   button1: {
     borderRadius: 20,
-    backgroundColor: "forestgreen",
+    backgroundColor: "#F9925E",
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
@@ -132,20 +144,39 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  button2: {
+    borderRadius: 20,
+    backgroundColor: "#494d53",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    padding: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    width: windowWidth / 3,
+    margin: 5,
+    marginLeft: 10,
+    marginRight: 10,
+  },
   buttonText: {
     fontSize: 20,
     color: "white",
+  },
+  button2Text: {
+    fontSize: 15,
+    color: "lightgreen",
+    textAlign: "center",
   },
   parkContainer: {
     width: windowWidth,
     margin: 10,
     marginBottom: 150,
-    backgroundColor: "black",
+    backgroundColor: "#242629",
     justifyContents: "center",
   },
   textContainer: {
     flexDirection: "column",
-    backgroundColor: "black",
+    backgroundColor: "#242629",
     marginVertical: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -154,22 +185,30 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontFamily: "Helvetica-Bold",
     alignSelf: "center",
-    color: "rgb(254, 216, 117)",
+    textAlign: "center",
+    color: "lightgreen",
   },
   parkImage: {
     width: windowWidth - windowWidth / 4,
     height: windowWidth - windowWidth / 4,
     marginBottom: 10,
-    borderRadius: 10,
+    borderRadius: 15,
   },
 
   parkDescription: {
     fontSize: 14,
     marginTop: 5,
-    marginLeft: 10,
-    marginRight: 10,
-    alignSelf: "flex-start",
+    marginLeft: 20,
+    marginRight: 20,
+    textAlign: "center",
     color: "#ffeeda",
+  },
+  DividerStyle: {
+    marginTop: 10,
+    backgroundColor: "lightgreen",
+    height: 1,
+    width: windowWidth - windowWidth / 6,
+    marginBottom: 10,
   },
 });
 
