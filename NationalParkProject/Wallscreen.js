@@ -18,6 +18,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // get the size of the window
 const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default function Wallscreen({ navigation, filteredData }) {
   const [data, setData] = useState([]);
@@ -41,7 +42,7 @@ export default function Wallscreen({ navigation, filteredData }) {
         console.log("parsedItem was parsed");
         console.log(parsedItem.length);
         setData(parsedItem);
-        // console.log(parsed_item);
+        // console.log(parsedItem);
       } catch (error) {
         console.log("Error with retrieving item from the cache: ", error);
       }
@@ -70,12 +71,21 @@ export default function Wallscreen({ navigation, filteredData }) {
             <Text style={styles.buttonText}>Stats</Text>
           </Pressable>
         </View>
-        <View>
-          <ScrollView>
+        <View style={styles.parkContainer}>
+          <ScrollView style={styles.scrollBox}>
             {data.map((park, index) => (
-              <Text key={index} style={styles.parkName}>
-                {park.fullName}
-              </Text>
+              <View key={index} style={styles.textContainer}>
+                <Image
+                  source={{ uri: park.images[0].url }}
+                  style={styles.parkImage}
+                />
+                <Text key={index} style={styles.parkName}>
+                  {park.fullName}
+                </Text>
+                <Text key={index} style={styles.parkDescription}>
+                  {park.description}
+                </Text>
+              </View>
             ))}
           </ScrollView>
         </View>
@@ -90,6 +100,8 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     alignItems: "center",
     justifyContent: "top",
+    marginBottom: 0,
+    height: windowHeight,
   },
   HeaderText: {
     color: "lightgreen",
@@ -97,6 +109,10 @@ const styles = StyleSheet.create({
     fontSize: 50,
     marginTop: 5,
   },
+  scrollBox: {
+    marginBottom: 0,
+  },
+
   NavContainer: {
     backgroundColor: "lightgreen",
     justifyContent: "flex-start",
@@ -125,22 +141,36 @@ const styles = StyleSheet.create({
   parkContainer: {
     width: windowWidth,
     margin: 10,
+    marginBottom: 175,
     backgroundColor: "black",
+    justifyContents: "center",
   },
   textContainer: {
-    backgroundColor: "white",
-    margin: 5,
+    flexDirection: "column",
+    backgroundColor: "black",
+    marginVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
   parkName: {
-    fontSize: 18,
+    fontSize: 23,
     fontFamily: "Helvetica-Bold",
-    color: "white",
+    alignSelf: "center",
+    color: "rgb(254, 216, 117)",
   },
+  parkImage: {
+    width: windowWidth - windowWidth / 4,
+    height: windowWidth - windowWidth / 4,
+    marginBottom: 10,
+  },
+
   parkDescription: {
     fontSize: 14,
-    marginTop: 3,
+    marginTop: 5,
+    marginLeft: 10,
     marginRight: 10,
-    color: "white",
+    alignSelf: "flex-start",
+    color: "#ffeeda",
   },
 });
 
