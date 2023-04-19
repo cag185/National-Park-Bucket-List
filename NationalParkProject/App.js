@@ -67,13 +67,22 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Homescreen} />
+        <Stack.Screen
+          name="Home"
+          component={Homescreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Wall"
           component={Wallscreen}
           filteredData={filteredData}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen name="Stats" component={Statistics} />
+        <Stack.Screen
+          name="Stats"
+          component={Statistics}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

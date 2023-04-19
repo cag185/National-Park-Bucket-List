@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     color: "lightgreen",
     textAlign: "center",
     fontSize: 50,
-    marginTop: 5,
+    marginTop: 35,
   },
   scrollBox: {
     marginBottom: 0,
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   parkContainer: {
     width: windowWidth,
     margin: 10,
-    marginBottom: 175,
+    marginBottom: 150,
     backgroundColor: "black",
     justifyContents: "center",
   },
