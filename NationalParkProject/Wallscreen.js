@@ -20,41 +20,69 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // get the size of the window
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+// let bucketList = [];
+// let beenThereList = [];
 
 export default function Wallscreen({ navigation, filteredData }) {
   const [data, setData] = useState([]);
-  console.log("Inside the wallscreen app");
+  const [bucketList, setBucketList] = useState([]);
+  const [beenThereList, setBeenThereList] = useState([]);
 
   if (filteredData != null) {
-    // console.log(filteredData);
+    // do nothing
   } else {
-    console.log("Filtered Data not passed through to wallscreen from app.js");
+    // data is null
   }
+
+  // function for button - add to bucket list
+  const addToBucketList = (id) => {
+    if (bucketList.indexOf(id) == -1) {
+      bucketList.push(id);
+      console.log(bucketList);
+    }
+  };
+
+  // function for button - add to been there list
+  const addToBeenThere = (id) => {
+    // get the index of the id in the bucket list if exists
+    id_in_bucket = bucketList.indexOf(id);
+
+    if (beenThereList.indexOf(id) == -1) {
+      if (id_in_bucket == -1) {
+        // allowed to add to been there without checking
+        beenThereList.push(id);
+      } else if (id_in_bucket >= 0) {
+        // add to the been there
+        beenThereList.push(id);
+        // remove from the bucket list - remove one item
+        bucketList.splice(id_in_bucket, 1);
+      }
+      console.log(beenThereList);
+    }
+  };
+  useEffect(() => {
+    console.log("Bucket List IDs: ");
+    console.log(bucketList);
+    console.log("Been there IDs: ");
+    console.log(beenThereList);
+  }, [bucketList, beenThereList]);
+
   useEffect(() => {
     let keys = [];
     let cache_item;
     const fetchCache = async () => {
       try {
         keys = await AsyncStorage.getAllKeys();
-        console.log(keys);
         cache_item = await AsyncStorage.getItem(keys[0]);
         const parsedItem = await JSON.parse(cache_item);
-        // console.log(parsedItem);
-        console.log("parsedItem was parsed");
-        console.log(parsedItem.length);
         setData(parsedItem);
-        // console.log(parsedItem);
-      } catch (error) {
-        console.log("Error with retrieving item from the cache: ", error);
-      }
+      } catch (error) {}
     };
     // call the function
     fetchCache();
-    console.log("data cache retrieved and set inside wallscreen");
   }, []);
 
   if (data != null) {
-    console.log("We have accurate data");
     return (
       <View style={styles.container}>
         <Text style={styles.HeaderText}>National Parks!</Text>
@@ -86,10 +114,18 @@ export default function Wallscreen({ navigation, filteredData }) {
                 <Text style={styles.parkDescription}>{park.description}</Text>
                 <Divider key={index} style={styles.DividerStyle}></Divider>
                 <View style={{ flexDirection: "row" }}>
-                  <Pressable style={styles.button2}>
+                  <Pressable
+                    name="addToBucketList"
+                    style={styles.button2}
+                    onPress={() => addToBucketList(park.id)}
+                  >
                     <Text style={styles.button2Text}>Add 2 Bucket List!</Text>
                   </Pressable>
-                  <Pressable style={styles.button2}>
+                  <Pressable
+                    name="addToBeenThere"
+                    style={styles.button2}
+                    onPress={() => addToBeenThere(park.id)}
+                  >
                     <Text style={styles.button2Text}>Add 2 Been There!</Text>
                   </Pressable>
                 </View>
