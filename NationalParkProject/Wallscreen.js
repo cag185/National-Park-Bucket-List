@@ -95,7 +95,12 @@ export default function Wallscreen({ navigation, filteredData }) {
           </Pressable>
           <Pressable
             style={styles.button1}
-            onPress={() => navigation.navigate("Stats")}
+            onPress={() =>
+              navigation.navigate("Stats", {
+                bucketList: bucketList,
+                beenThereList: beenThereList,
+              })
+            }
           >
             <Text style={styles.buttonText}>Stats</Text>
           </Pressable>

@@ -12,16 +12,24 @@ import {
 } from "react-native";
 
 // nav stuff
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useRoute } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // get the size of the window
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function Statistics({ navigation }) {
+export default function Statistics({ navigation, route }) {
   const [isEnabled, setIsEnabled] = useState(false);
+  const { params } = useRoute();
+  const bucketList = params?.bucketList || [];
+  const beenThereList = params?.beenThereList || [];
+
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  console.log("params");
+  console.log(route.params);
+  console.log(bucketList.length());
   return (
     <View style={styles.container}>
       <Text style={styles.HeaderText}>Stats!</Text>
@@ -49,11 +57,21 @@ export default function Statistics({ navigation }) {
       {isEnabled ? (
         <Text style={styles.listText}>Been There </Text>
       ) : (
-        <Text style={styles.listText}>Bucket List</Text>
+        <Text style={styles.listText}>Bucket List </Text>
       )}
     </View>
   );
 }
+// <View>
+//         <Text style={styles.listText}>Bucket List</Text>
+//         <View style={styles.parkContainer}>
+//           {bucketList.map((park, index) => (
+//             <View key={index}>
+//               <Text>{park}</Text>
+//             </View>
+//           ))}
+//         </View>
+//       </View>
 
 const styles = StyleSheet.create({
   container: {
@@ -108,5 +126,12 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 130,
     textAlign: "center",
+  },
+  parkContainer: {
+    width: windowWidth,
+    margin: 10,
+    marginBottom: 150,
+    backgroundColor: "#242629",
+    justifyContents: "center",
   },
 });
