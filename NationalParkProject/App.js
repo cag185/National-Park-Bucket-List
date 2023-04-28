@@ -34,34 +34,26 @@ export default function App() {
           })
           .then((data) => {
             setData(data.data);
-            console.log("Data set");
           });
       } catch (error) {
         // error fetching data
       }
     };
     fetchData();
-    console.log("Done fetching data");
     // check to see if there is data
     const df = data;
     const fd = df.filter((park) => park.designation === "National Park");
     if (fd !== null) {
       setFilterdData(fd);
-      console.log("filtered data Proof");
       // once we have filtered data lets store it in the cache
       const setCache = async () => {
         try {
           const data_to_set = JSON.stringify(fd);
           await AsyncStorage.setItem("FILTERED_DATA", data_to_set);
-          console.log("size of the park info: ", fd.length * 2);
-          console.log("Cache set");
-        } catch (error) {
-          console.log("Error with setting the cache: ", error);
-        }
+        } catch (error) {}
       };
       setCache();
     } else {
-      console.log("Filtered Data null");
     }
   }, []); // empty array is the dependency array. Empty dependency array makes the useeffect occur once rather than every cycle that gets updated
   return (
