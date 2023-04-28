@@ -22,14 +22,19 @@ const windowHeight = Dimensions.get("window").height;
 export default function Statistics({ navigation, route }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const { params } = useRoute();
-  const bucketList = params?.bucketList || [];
-  const beenThereList = params?.beenThereList || [];
+  // let bucketList;
+  // if (params?.bucketList) {
+  //   bucketList = params.bucketList;
+  // } else {
+  //   bucketList = [];
+  // }
+  // const beenThereList = params?.beenThereList || [];
 
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   console.log("params");
   console.log(route.params);
-  console.log(bucketList.length());
+  // console.log(bucketList.length());
   return (
     <View style={styles.container}>
       <Text style={styles.HeaderText}>Stats!</Text>
