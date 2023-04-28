@@ -35,12 +35,15 @@ export default function Statistics({ navigation, route }) {
     for (let i = 0; i < bucketList1.length; i++) {
       bucketList.push(bucketList1[i]);
     }
+    for (let i = 0; i < beenThereList1.length; i++) {
+      beenThereList.push(beenThereList1[i]);
+    }
     // beenThereList.push(beenThereList1);
   };
   // call the funciton
   useEffect(() => {
     initLists();
-  }, [bucketList1]);
+  }, [bucketList1, beenThereList1]);
 
   // }, []);
   // }, [route.params["bucketList"], route.params["beenThere"]]);
@@ -93,14 +96,33 @@ export default function Statistics({ navigation, route }) {
         value={isEnabled}
       />
       {isEnabled ? (
-        <Text style={styles.listText}>Been There </Text>
+        <View>
+          <Text style={styles.listText}>Been There List</Text>
+          <ScrollView>
+            <View style={styles.parkContainer}>
+              {beenThereList.map((park, index) => (
+                <View key={index}>
+                  <View style={styles.nameRemove}>
+                    <Text style={styles.parkName}>{park}</Text>
+                    <Pressable
+                      onPress={removePark_beenThere(park)}
+                      style={styles.button2}
+                    >
+                      <Text style={styles.buttonText2}>-</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
       ) : (
         <View>
           <Text style={styles.listText}>Bucket List</Text>
-          <View style={styles.parkContainer}>
-            {bucketList.map((park, index) => (
-              <View key={index}>
-                <ScrollView>
+          <ScrollView>
+            <View style={styles.parkContainer}>
+              {bucketList.map((park, index) => (
+                <View key={index}>
                   <View style={styles.nameRemove}>
                     <Text style={styles.parkName}>{park}</Text>
                     <Pressable
@@ -110,10 +132,10 @@ export default function Statistics({ navigation, route }) {
                       <Text style={styles.buttonText2}>-</Text>
                     </Pressable>
                   </View>
-                </ScrollView>
-              </View>
-            ))}
-          </View>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
         </View>
       )}
     </View>
@@ -175,8 +197,10 @@ const styles = StyleSheet.create({
   },
   nameRemove: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
+    marginRight: 10,
+    marginLeft: 10,
   },
   button2: {
     borderRadius: 20,
@@ -186,7 +210,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(255, 50, 0)",
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: "center",
+    // alignSelf: "center",
     margin: 10,
     shadowOffset: { width: -2, height: 4 },
     shadowColor: "#171717",
@@ -195,7 +219,7 @@ const styles = StyleSheet.create({
     width: 35,
     height: 35,
     textAlign: "center",
-    marginLeft: 80,
+    // marginLeft: 80,
   },
   buttonText: {
     fontSize: 20,
