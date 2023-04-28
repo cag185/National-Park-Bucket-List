@@ -8,6 +8,7 @@ import {
   Image,
   Dimensions,
   Pressable,
+  ScrollView,
   Switch,
 } from "react-native";
 
@@ -24,20 +25,49 @@ export default function Statistics({ navigation, route }) {
   const [bucketList, setBucketList] = useState([]);
   const [beenThereList, setBeenThereList] = useState([]);
 
+  const bucketList1 = route.params["bucketList"];
+  // console.log("bucketList from params changed: ", bucketList1);
+  const beenThereList1 = route.params["beenThereList"];
+
   const { params } = useRoute();
+  // useEffect(() => {
+  const initLists = () => {
+    for (let i = 0; i < bucketList1.length; i++) {
+      bucketList.push(bucketList1[i]);
+    }
+    // beenThereList.push(beenThereList1);
+  };
+  // call the funciton
   useEffect(() => {
-    setBucketList(route.params["bucketList"]);
-    setBeenThereList(route.params["beenThereList"]);
-  }, []);
+    initLists();
+  }, [bucketList1]);
+
+  // }, []);
+  // }, [route.params["bucketList"], route.params["beenThere"]]);
 
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  // console.log("bucketList: ", bucketList);
+
+  const removePark_bucket = (parkName) => {
+    // list = bucketList;
+    // idx = list.indexOf(parkName);
+    // list.splice(idx, 1);
+    // setBucketList(list);
+  };
+  const removePark_beenThere = (parkName) => {
+    // list = beenThereList;
+    // idx = list.indexOf(parkName);
+    // list.splice(idx, 1);
+    // setBucketList(list);
+  };
 
   // console.log("params");
-  console.log(bucketList.length);
+  // console.log(bucketList.length);
   // console.log("bucketList: ");
   // console.log(bucketList);
   // console.log("been there list: ");
   // console.log(route.params["beenThereList"]);
+  console.log(bucketList);
   return (
     <View style={styles.container}>
       <Text style={styles.HeaderText}>Stats!</Text>
@@ -68,9 +98,19 @@ export default function Statistics({ navigation, route }) {
         <View>
           <Text style={styles.listText}>Bucket List</Text>
           <View style={styles.parkContainer}>
-            {route.params["bucketList"].map((park, index) => (
+            {bucketList.map((park, index) => (
               <View key={index}>
-                <Text>{park}</Text>
+                <ScrollView>
+                  <View style={styles.nameRemove}>
+                    <Text style={styles.parkName}>{park}</Text>
+                    <Pressable
+                      onPress={removePark_bucket(park)}
+                      style={styles.button2}
+                    >
+                      <Text style={styles.buttonText2}>-</Text>
+                    </Pressable>
+                  </View>
+                </ScrollView>
               </View>
             ))}
           </View>
@@ -109,6 +149,11 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     margin: 5,
   },
+  parkName: {
+    color: "#EDA565",
+    textAlign: "center",
+    fontSize: 24,
+  },
   Text: {
     color: "lightgreen",
     textAlign: "center",
@@ -128,11 +173,42 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },
+  nameRemove: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button2: {
+    borderRadius: 20,
+    elevation: 3,
+    // color: "white",
+    // backgroundColor: "#EDA565",
+    backgroundColor: "rgb(255, 50, 0)",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    margin: 10,
+    shadowOffset: { width: -2, height: 4 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    width: 35,
+    height: 35,
+    textAlign: "center",
+    marginLeft: 80,
+  },
   buttonText: {
     fontSize: 20,
     color: "white",
     padding: 10,
     width: 130,
+    textAlign: "center",
+  },
+  buttonText2: {
+    fontSize: 30,
+    color: "white",
+    padding: 0,
+    // width: 130,
     textAlign: "center",
   },
   parkContainer: {
