@@ -21,13 +21,12 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function Statistics({ navigation, route }) {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [bucketList, setBucketList] = useState([]);
-  const [beenThereList, setBeenThereList] = useState([]);
-
-  const bucketList1 = route.params["bucketList"];
-  // console.log("bucketList from params changed: ", bucketList1);
+  let bucketList1 = route.params.bucketList;
   const beenThereList1 = route.params["beenThereList"];
+
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [bucketList, setBucketList] = useState([...bucketList1]);
+  const [beenThereList, setBeenThereList] = useState([...beenThereList1]);
 
   const { params } = useRoute();
   // useEffect(() => {
@@ -42,7 +41,7 @@ export default function Statistics({ navigation, route }) {
   };
   // call the funciton
   useEffect(() => {
-    initLists();
+    // initLists();
   }, [bucketList1, beenThereList1]);
 
   // }, []);
