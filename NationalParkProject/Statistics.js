@@ -50,18 +50,27 @@ export default function Statistics({ navigation, route }) {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   // console.log("bucketList: ", bucketList);
 
-  const removePark_bucket = (parkName) => {
-    // list = bucketList;
-    // idx = list.indexOf(parkName);
-    // list.splice(idx, 1);
-    // setBucketList(list);
-  };
-  const removePark_beenThere = (parkName) => {
-    // list = beenThereList;
-    // idx = list.indexOf(parkName);
-    // list.splice(idx, 1);
-    // setBucketList(list);
-  };
+  function removePark_bucket(parkName) {
+    console.log("inside the bucket remove");
+    list1 = bucketList;
+    console.log("created a copy of the bucket list");
+    idx = list1.indexOf(parkName);
+    console.log("got the index");
+    list1.splice(idx, 1);
+    console.log("spliced the index with the rest of the list");
+    setBucketList([]);
+    console.log("set the bucket list to an empty array");
+    setBucketList([...list1]);
+    console.log(
+      "set the bucket list with the copy of the elements in the list"
+    );
+  }
+  function removePark_beenThere(parkName) {
+    list = beenThereList;
+    idx = list.indexOf(parkName);
+    list.splice(idx, 1);
+    setBucketList([...list]);
+  }
 
   // console.log("params");
   // console.log(bucketList.length);
@@ -104,7 +113,7 @@ export default function Statistics({ navigation, route }) {
                   <View style={styles.nameRemove}>
                     <Text style={styles.parkName}>{park}</Text>
                     <Pressable
-                      onPress={removePark_beenThere(park)}
+                      onPress={() => removePark_beenThere(park)}
                       style={styles.button2}
                     >
                       <Text style={styles.buttonText2}>-</Text>
@@ -125,7 +134,7 @@ export default function Statistics({ navigation, route }) {
                   <View style={styles.nameRemove}>
                     <Text style={styles.parkName}>{park}</Text>
                     <Pressable
-                      onPress={removePark_bucket(park)}
+                      onPress={() => removePark_bucket(park)}
                       style={styles.button2}
                     >
                       <Text style={styles.buttonText2}>-</Text>
