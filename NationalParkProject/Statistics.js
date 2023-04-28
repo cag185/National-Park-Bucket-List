@@ -91,7 +91,12 @@ export default function Statistics({ navigation, route }) {
         </Pressable>
         <Pressable
           style={styles.button1}
-          onPress={() => navigation.navigate("Wall")}
+          onPress={() =>
+            navigation.navigate("Wall", {
+              bucketList: bucketList,
+              beenThereList: beenThereList,
+            })
+          }
         >
           <Text style={styles.buttonText}>Wall</Text>
         </Pressable>

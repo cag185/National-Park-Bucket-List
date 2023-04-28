@@ -13,7 +13,7 @@ import {
 import { Divider } from "react-native-elements";
 
 // nav stuff
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useRoute } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 //cache lib
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -23,7 +23,7 @@ const windowHeight = Dimensions.get("window").height;
 // let bucketList = [];
 // let beenThereList = [];
 
-export default function Wallscreen({ navigation, filteredData }) {
+export default function Wallscreen({ navigation, filteredData, route }) {
   const [data, setData] = useState([]);
   const [bucketList, setBucketList] = useState([]);
   const [beenThereList, setBeenThereList] = useState([]);
@@ -33,6 +33,22 @@ export default function Wallscreen({ navigation, filteredData }) {
   } else {
     // data is null
   }
+  // if the lists have been updated in stats, update here
+  const { params } = useRoute();
+  useEffect(() => {
+    if (route.params && route.params.bucketList) {
+      list = route.params.bucketList;
+      // set the bucket list to null
+      setBucketList([]);
+      setBucketList([...list]);
+    }
+    if (route.params && route.params.beenThereList) {
+      list = route.params.beenThereList;
+      // set the bucket list to null
+      setBeenThereList([]);
+      setBeenThereList([...list]);
+    }
+  }, [route.params]);
 
   // function for button - add to bucket list
   const addToBucketList = (id) => {
