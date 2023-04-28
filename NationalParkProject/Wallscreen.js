@@ -122,14 +122,14 @@ export default function Wallscreen({ navigation, filteredData }) {
                   <Pressable
                     name="addToBucketList"
                     style={styles.button2}
-                    onPress={() => addToBucketList(park.id)}
+                    onPress={() => addToBucketList(park.fullName)}
                   >
                     <Text style={styles.button2Text}>Add 2 Bucket List!</Text>
                   </Pressable>
                   <Pressable
                     name="addToBeenThere"
                     style={styles.button2}
-                    onPress={() => addToBeenThere(park.id)}
+                    onPress={() => addToBeenThere(park.fullName)}
                   >
                     <Text style={styles.button2Text}>Add 2 Been There!</Text>
                   </Pressable>

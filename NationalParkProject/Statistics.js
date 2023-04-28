@@ -1,5 +1,5 @@
 // THIS FILE IS FOR THE Stats SCREEN
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Button,
@@ -21,20 +21,23 @@ const windowHeight = Dimensions.get("window").height;
 
 export default function Statistics({ navigation, route }) {
   const [isEnabled, setIsEnabled] = useState(false);
+  const [bucketList, setBucketList] = useState([]);
+  const [beenThereList, setBeenThereList] = useState([]);
+
   const { params } = useRoute();
-  // let bucketList;
-  // if (params?.bucketList) {
-  //   bucketList = params.bucketList;
-  // } else {
-  //   bucketList = [];
-  // }
-  // const beenThereList = params?.beenThereList || [];
+  useEffect(() => {
+    setBucketList(route.params["bucketList"]);
+    setBeenThereList(route.params["beenThereList"]);
+  }, []);
 
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
-  console.log("params");
-  console.log(route.params);
-  // console.log(bucketList.length());
+  // console.log("params");
+  console.log(bucketList.length);
+  // console.log("bucketList: ");
+  // console.log(bucketList);
+  // console.log("been there list: ");
+  // console.log(route.params["beenThereList"]);
   return (
     <View style={styles.container}>
       <Text style={styles.HeaderText}>Stats!</Text>
@@ -62,21 +65,20 @@ export default function Statistics({ navigation, route }) {
       {isEnabled ? (
         <Text style={styles.listText}>Been There </Text>
       ) : (
-        <Text style={styles.listText}>Bucket List </Text>
+        <View>
+          <Text style={styles.listText}>Bucket List</Text>
+          <View style={styles.parkContainer}>
+            {route.params["bucketList"].map((park, index) => (
+              <View key={index}>
+                <Text>{park}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
       )}
     </View>
   );
 }
-// <View>
-//         <Text style={styles.listText}>Bucket List</Text>
-//         <View style={styles.parkContainer}>
-//           {bucketList.map((park, index) => (
-//             <View key={index}>
-//               <Text>{park}</Text>
-//             </View>
-//           ))}
-//         </View>
-//       </View>
 
 const styles = StyleSheet.create({
   container: {
@@ -97,6 +99,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: "white",
     fontSize: 25,
+    textAlign: "center",
   },
 
   NavContainer: {
